@@ -1,13 +1,13 @@
 # yaml-language-server: $schema=./quartz/plugins/quartz-plugins.schema.json
 configuration:
-  pageTitle: Icewind Dale
+  pageTitle: A House Divided
   pageTitleSuffix: ""
   enableSPA: true
   enablePopovers: true
   analytics:
     provider: plausible
   locale: ru-RU
-  baseUrl: dndcutter.github.io/mydndgallery
+  baseUrl: dndcutter.github.io/hd-gallery
   ignorePatterns:
     - private
     - templates
@@ -16,30 +16,33 @@ configuration:
     fontOrigin: local
     cdnCaching: true
     typography:
-      header: Noto Sans
-      body: Noto Sans
+      # Оставлены как запасной вариант на случай, если плагин fonts
+      # ниже будет отключён — реальным источником шрифтов служит
+      # плагин fonts (per-heading контроль, self-hosted файлы).
+      header: Playfair Display SC
+      body: PT Serif
       code: JetBrains Mono
     colors:
       lightMode:
-        light: "#faf8f8"
-        lightgray: "#e5e5e5"
-        gray: "#b8b8b8"
-        darkgray: "#4e4e4e"
-        dark: "#2b2b2b"
-        secondary: "#284b63"
-        tertiary: "#84a59d"
-        highlight: rgba(143, 159, 169, 0.15)
-        textHighlight: "#fff23688"
+        light: "#f4ead2" # пергамент
+        lightgray: "#ddc9a0" # тонкие рамки/линии таблиц
+        gray: "#a9895a" # рёбра графа, более толстые рамки
+        darkgray: "#3b2415" # основной текст — тёмно-каштановые чернила
+        dark: "#1a0a00" # заголовки/иконки — manor-black
+        secondary: "#6c1417" # ссылки — винно-красный (manor-red)
+        tertiary: "#8a6a00" # ховер — старое золото (manor-gold)
+        highlight: rgba(175, 128, 39, 0.14) # фон внутр. ссылок, подсветка строк кода
+        textHighlight: rgba(212, 165, 0, 0.35) # ==выделенный== текст — manor-yellow
       darkMode:
-        light: "#161618"
-        lightgray: "#393639"
-        gray: "#646464"
-        darkgray: "#d4d4d4"
-        dark: "#ebebec"
-        secondary: "#7b97aa"
-        tertiary: "#84a59d"
-        highlight: rgba(143, 159, 169, 0.15)
-        textHighlight: "#b3aa0288"
+        light: "#170d08" # тёмный манор, тёплый почти-чёрный
+        lightgray: "#3c2a1c" # рамки
+        gray: "#6b4f34" # рёбра графа
+        darkgray: "#cdbb96" # текст — тёплый пергаментно-бежевый
+        dark: "#e8d9ae" # заголовки — цвет свечи на пергаменте
+        secondary: "#a0343a" # ссылки — manor-red-light, ярче на тёмном фоне
+        tertiary: "#d4a500" # ховер — manor-yellow, тёплое золотое свечение
+        highlight: rgba(191, 135, 0, 0.18)
+        textHighlight: rgba(163, 86, 0, 0.4)
 plugins:
   - source: github:quartz-community/created-modified-date
     enabled: true
@@ -129,24 +132,30 @@ plugins:
     options:
       fontOrigin: googleFonts
       useThemeFonts: false
-      body:
-        name: Noto Sans
+      title:
+        name: Playfair Display
         weights:
           - 400
-          - 600
+          - 700
+      header:
+        name: Playfair Display SC
+        weights:
+          - 400
+          - 700
+      h1:
+        name: Playfair Display
+        weights:
+          - 400
           - 700
         includeItalic: true
-      header:
-        name: Noto Sans
+      body:
+        name: PT Serif
         weights:
-          - 600
+          - 400
           - 700
-      title:
-        name: Noto Sans
-        weights:
-          - 700
+        includeItalic: true
       interface:
-        name: Noto Sans
+        name: PT Serif
         weights:
           - 400
       code:
@@ -310,7 +319,7 @@ plugins:
       name: quartz-themes
       repo: github:saberzero1/quartz-themes
       subdir: plugin
-    enabled: true
+    enabled: false
     options:
       theme: anuppuccin
   - source: github:quartz-community/obsidian-plugin-excalidraw

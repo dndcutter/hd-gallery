@@ -119,35 +119,85 @@ body ol>li {
     color: var(--text-normal) !important;
 }
 
-// Изменяем жирный и курсив
-strong,
-b {
-    font-weight: 700 !important;
+:root {
+    --manor-red: #6c1417;
+    --manor-red-soft: rgba(103, 20, 23, 0.65);
+    --manor-gold: #8a6a00;
+    --manor-gold-soft: rgba(175, 128, 39, 0.45);
+    --manor-green: #4b5530;
 }
 
 :root[saved-theme="dark"] {
-
-    strong,
-    b {
-        color: rgb(243, 139, 168); // Catppuccin Mocha Red
-    }
-
-    em,
-    i {
-        color: rgb(166, 227, 161); // Catppuccin Mocha Green
-    }
+    --manor-red: #c24b52;
+    --manor-red-soft: rgba(160, 47, 57, 0.7);
+    --manor-gold: #d4a500;
+    --manor-gold-soft: rgba(191, 135, 0, 0.5);
+    --manor-green: #a3a98a;
 }
 
-:root[saved-theme="light"] {
+// жирный и курсив 
+strong,
+b {
+    font-weight: 700 !important;
+    color: var(--manor-red);
+}
 
-    strong,
-    b {
-        color: rgb(210, 15, 57); // Catppuccin Latte Red
+em,
+i {
+    font-style: italic;
+    color: var(--manor-green);
+}
+
+/* ============================================================
+   заголовок страницы: мягкая арка снизу
+   ============================================================ */
+.article-title,
+article > h1:first-child {
+    text-align: center !important;
+    padding-bottom: 0.75rem !important;
+    border-bottom: 3px solid var(--manor-red) !important;
+    border-radius: 0 0 100px 100px / 0 10px 60px 60px !important;
+}
+
+
+/* ============================================================
+   декоративные ссылки
+   ============================================================ */
+a.internal {
+    font-style: italic;
+    background-color: transparent;
+    border-bottom: 1px solid var(--manor-gold-soft);
+    padding: 0 0.05rem;
+    border-radius: 0;
+    transition:
+        border-color 0.2s ease,
+        color 0.2s ease;
+
+    &:hover {
+        border-color: var(--manor-gold);
     }
 
-    em,
-    i {
-        color: rgb(64, 160, 43); // Catppuccin Latte Green
+    &:has(> img) {
+        border-bottom: none;
+    }
+
+    &.tag-link {
+        font-style: normal;
+        display: inline-block;
+        border: none;
+        background: var(--manor-red-soft);
+        color: var(--light);
+        padding: 0.05rem 0.6rem;
+        border-radius: 999px;
+        font-size: 0.85em;
+
+        &::before {
+            color: inherit;
+        }
+
+        &:hover {
+            background: var(--manor-red);
+        }
     }
 }
 
