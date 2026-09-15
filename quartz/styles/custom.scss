@@ -1,0 +1,173 @@
+/* временно - запрещаем плавный скроллинг, который ломает навигацию */
+html,
+body,
+article {
+    scroll-behavior: auto !important;
+}
+
+/* Исправление верстки списка папок */
+.page-listing {
+    .section-ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .section-li {
+        margin-bottom: 1rem;
+
+        .section {
+            display: flex;
+            align-items: center;
+            /* Центрирует элементы по вертикали */
+            gap: 1rem;
+            /* Отступ между датой, названием и тегами */
+
+            .meta {
+                margin: 0;
+                white-space: nowrap;
+                /* Чтобы дата не переносилась */
+                font-size: 0.9rem;
+                opacity: 0.7;
+            }
+
+            .desc {
+                flex: 1;
+
+                /* Название занимает всё свободное место */
+                h3 {
+                    margin: 0;
+                }
+            }
+
+            .tags {
+                display: flex;
+                gap: 0.5rem;
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
+        }
+    }
+}
+
+
+
+// Фикс скрытия TOC при сворачивании (тема ломала min-height и collapse)
+div.toc {
+    min-height: fit-content !important;
+}
+
+ul.toc-content.collapsed {
+    display: none !important;
+}
+
+ul.toc-content:not(.collapsed) {
+    overflow-y: auto !important;
+    max-height: calc(100dvh - 6rem) !important;
+}
+
+// Компактные стили списка TOC
+.toc ul,
+.toc ol {
+    list-style: none !important;
+    padding-left: 0 !important;
+}
+
+.toc li {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    line-height: 1.2rem !important;
+    // overflow-y: hidden убран — он ломал клики при скролле
+
+    &.depth-0 {
+        padding-left: 0 !important;
+        font-weight: 600 !important;
+        margin: 2px 0 !important;
+    }
+
+    &.depth-1 {
+        padding-left: 19px !important;
+        font-size: 0.95em !important;
+        margin: 1px 0 !important;
+        border-left-width: 1px !important;
+        border-left-style: solid !important;
+        border-left-color: var(--gray) !important;
+    }
+
+    &.depth-2 {
+        padding-left: 35px !important;
+        font-size: 0.9em !important;
+        margin: 1px 0 !important;
+        opacity: 0.85 !important;
+        border-left-width: 1px !important;
+        border-left-style: solid !important;
+        border-left-color: var(--gray) !important;
+    }
+}
+
+// Страховка для кликабельности ссылок при скролле
+ul.toc-content a {
+    pointer-events: auto !important;
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+// Исправляем блеклый текст
+body p,
+body ul>li,
+body ol>li {
+    color: var(--text-normal) !important;
+}
+
+// Изменяем жирный и курсив
+strong,
+b {
+    font-weight: 700 !important;
+}
+
+:root[saved-theme="dark"] {
+
+    strong,
+    b {
+        color: rgb(243, 139, 168); // Catppuccin Mocha Red
+    }
+
+    em,
+    i {
+        color: rgb(166, 227, 161); // Catppuccin Mocha Green
+    }
+}
+
+:root[saved-theme="light"] {
+
+    strong,
+    b {
+        color: rgb(210, 15, 57); // Catppuccin Latte Red
+    }
+
+    em,
+    i {
+        color: rgb(64, 160, 43); // Catppuccin Latte Green
+    }
+}
+
+/* Sourced from lithou
+https://github.com/Lithou/Sandbox/blob/main/.obsidian/snippets/pub-Image%20Flags.css
+(Modified to support newer Obsidian wrapper behavior) */
+
+table {
+    width: auto;
+    display: table;
+}
+
+.grid span.image-embed[alt*="."],
+span[alt*="grid"] {
+    display: table-cell;
+    vertical-align: middle;
+    padding: 3px;
+}
+
+img[alt*="grid"],
+.grid img[alt*="."] {
+    max-height: 30vh;
+}
