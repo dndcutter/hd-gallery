@@ -221,3 +221,60 @@ img[alt*="grid"],
 .grid img[alt*="."] {
     max-height: 30vh;
 }
+
+/* ============================================================
+   Улучшение читаемости длинных названий в дереве навигации (Explorer)
+   ============================================================ */
+.explorer-content {
+  // 1. Отступ между соседними элементами дерева
+  ul li {
+    margin: 4px 0;
+  }
+
+  // 2. Ссылки на заметки/файлы
+  ul li > a {
+    display: block;
+    line-height: 1.25;
+    padding: 3px 6px;
+    border-radius: 4px;
+
+    // Висячий отступ: вторая строка сдвигается вправо на 0.75rem
+    padding-left: calc(6px + 0.75rem);
+    text-indent: -0.75rem;
+
+    transition: background-color 0.15s ease;
+
+    &:hover {
+      background-color: var(--highlight);
+    }
+  }
+
+  // 3. Папки
+  .folder-container {
+    display: flex;
+    align-items: flex-start; // Стрелка всегда у первой строки
+    padding: 2px 4px;
+    border-radius: 4px;
+    transition: background-color 0.15s ease;
+
+    &:hover {
+      background-color: var(--highlight);
+    }
+
+    // Выравнивание иконки-стрелки точно по высоте первой строки
+    .folder-icon {
+      margin-top: 3px;
+      flex-shrink: 0;
+    }
+
+    div > button,
+    div > a {
+      line-height: 1.25;
+    }
+
+    div > button span {
+      line-height: 1.25;
+      display: inline-block;
+    }
+  }
+}
