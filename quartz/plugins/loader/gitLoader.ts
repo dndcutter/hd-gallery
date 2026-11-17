@@ -258,26 +258,17 @@ export function installNativeDeps(
   }
 }
 
-function isDistGitignored(pluginDir: string): boolean {
-  const gitignorePath = path.join(pluginDir, ".gitignore")
-  if (!fs.existsSync(gitignorePath)) return false
-
-  const lines = fs.readFileSync(gitignorePath, "utf-8").split("\n")
-  return lines.some((line) => {
-    const trimmed = line.trim()
-    return trimmed === "dist" || trimmed === "dist/" || trimmed === "/dist" || trimmed === "/dist/"
-  })
-}
-
 function hasPrebuiltDist(pluginDir: string): boolean {
   const distDir = path.join(pluginDir, "dist")
-  return fs.existsSync(distDir) && !isDistGitignored(pluginDir)
+  try {
+    return fs.existsSync(distDir) && fs.readdirSync(distDir).length > 0
+  } catch {
+    return false
+  }
 }
 
 function needsBuild(pluginDir: string): boolean {
-  if (isDistGitignored(pluginDir)) return true
-  const distDir = path.join(pluginDir, "dist")
-  return !fs.existsSync(distDir)
+  return !hasPrebuiltDist(pluginDir)
 }
 
 function findPluginByPackageName(packageName: string): string | null {

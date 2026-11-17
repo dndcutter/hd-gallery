@@ -93,31 +93,17 @@ async function runParallel(items, concurrency, fn) {
   return results
 }
 
-/**
- * Check whether a plugin's .gitignore excludes dist/.
- * When dist/ is gitignored, the plugin cannot ship pre-built output in version
- * control (e.g. because it uses tree-shaking) and must always be built locally.
- */
-function isDistGitignored(pluginDir) {
-  const gitignorePath = path.join(pluginDir, ".gitignore")
-  if (!fs.existsSync(gitignorePath)) return false
-
-  const lines = fs.readFileSync(gitignorePath, "utf-8").split("\n")
-  return lines.some((line) => {
-    const trimmed = line.trim()
-    return trimmed === "dist" || trimmed === "dist/" || trimmed === "/dist" || trimmed === "/dist/"
-  })
-}
-
 function hasPrebuiltDist(pluginDir) {
   const distDir = path.join(pluginDir, "dist")
-  return fs.existsSync(distDir) && !isDistGitignored(pluginDir)
+  try {
+    return fs.existsSync(distDir) && fs.readdirSync(distDir).length > 0
+  } catch {
+    return false
+  }
 }
 
 function needsBuild(pluginDir) {
-  if (isDistGitignored(pluginDir)) return true
-  const distDir = path.join(pluginDir, "dist")
-  return !fs.existsSync(distDir)
+  return !hasPrebuiltDist(pluginDir)
 }
 
 /**
@@ -283,9 +269,12 @@ async function regeneratePluginIndex() {
   lines.push("")
 
   // Type re-exports
+  const exportedTypes = new Set()
   for (const [pluginName, { types }] of pluginExports) {
-    if (types.length > 0) {
-      lines.push(`export type { ${types.join(", ")} } from "./${pluginName}"`)
+    const uniqueTypes = types.filter((t) => !exportedTypes.has(t))
+    if (uniqueTypes.length > 0) {
+      for (const t of uniqueTypes) exportedTypes.add(t)
+      lines.push(`export type { ${uniqueTypes.join(", ")} } from "./${pluginName}"`)
     }
   }
 
@@ -1058,6 +1047,7 @@ export async function handlePluginInstallUnified({
           console.log(
             styleText("gray", `  ✓ ${name}@${entry.commit.slice(0, 7)} already installed (subdir)`),
           )
+          linkPeerPlugins(pluginDir)
           installed++
           continue
         }
@@ -1069,6 +1059,7 @@ export async function handlePluginInstallUnified({
           console.log(
             styleText("gray", `  ✓ ${name}@${entry.commit.slice(0, 7)} already installed`),
           )
+          linkPeerPlugins(pluginDir)
           installed++
           continue
         }
